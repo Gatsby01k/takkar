@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: takkar-miniapp
+    runtime: docker
+    plan: starter
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: ALLOWED_ORIGIN
+        sync: false
+      - key: DEMO_AUTH
+        value: "false"
