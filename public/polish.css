@@ -1,0 +1,11 @@
+.takkar-polished .stage{contain:layout paint style;isolation:isolate}
+.takkar-polished #gameCanvas{transform:translateZ(0);backface-visibility:hidden}
+.takkar-polished .stage-vignette{background:linear-gradient(180deg,rgba(0,0,0,.64) 0,transparent 23%,transparent 68%,rgba(0,0,0,.84) 100%),radial-gradient(circle at 52% 48%,transparent 38%,rgba(0,0,0,.72) 100%)}
+.takkar-polished .desktop-telemetry,.takkar-polished .next-threat,.takkar-polished .status-pill,.takkar-polished .network-pill{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.takkar-polished .action-button{transition:filter .16s ease,transform .12s ease,box-shadow .18s ease}
+.takkar-polished .action-button:active{transform:translateY(1px) scale(.997)}
+.takkar-polished.quality-balanced .stage-vignette{background:linear-gradient(180deg,rgba(0,0,0,.62),transparent 25%,transparent 70%,rgba(0,0,0,.82)),radial-gradient(circle at 50% 48%,transparent 44%,rgba(0,0,0,.62))}
+.quality-balanced .desktop-telemetry,.quality-balanced .next-threat,.quality-balanced .status-pill,.quality-balanced .network-pill,.quality-low .desktop-telemetry,.quality-low .next-threat,.quality-low .status-pill,.quality-low .network-pill{backdrop-filter:none;-webkit-backdrop-filter:none}
+.quality-low .stage-vignette{background:linear-gradient(180deg,rgba(0,0,0,.58),transparent 28%,transparent 72%,rgba(0,0,0,.78))}
+.quality-low .action-shine{display:none}
+@media(max-width:760px){.takkar-polished .desktop-telemetry{display:none!important}.takkar-polished .stage-vignette{background:linear-gradient(180deg,rgba(0,0,0,.58),transparent 25%,transparent 68%,rgba(0,0,0,.84))}}
