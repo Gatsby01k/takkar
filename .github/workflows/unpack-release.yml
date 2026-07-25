@@ -1,0 +1,43 @@
+name: Publish TAKKAR Release V3
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - UNPACK_NOW
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Rebuild release archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .release-bundle/part-* | tr -d '\n' | base64 --decode > /tmp/takkar-v3.zip
+          rm -rf /tmp/takkar-v3
+          mkdir -p /tmp/takkar-v3
+          unzip -q /tmp/takkar-v3.zip -d /tmp/takkar-v3
+
+      - name: Replace bootstrap with complete project
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rm -r --ignore-unmatch .
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a /tmp/takkar-v3/. .
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "feat: publish TAKKAR V3 desktop impact rebuild"
+          git push origin HEAD:main
