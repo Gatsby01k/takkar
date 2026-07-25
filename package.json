@@ -1,9 +1,9 @@
 {
   "name": "takkar-telegram-mini-app",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "private": true,
   "type": "module",
-  "description": "TAKKAR — mobile-first Telegram Mini App vertical slice with an authoritative demo server.",
+  "description": "TAKKAR — desktop-polished Telegram Mini App impact game with an authoritative demo server.",
   "scripts": {
     "start": "node server/server.mjs",
     "dev": "NODE_ENV=development DEMO_AUTH=true node server/server.mjs",

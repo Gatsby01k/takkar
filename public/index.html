@@ -8,68 +8,202 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="description" content="TAKKAR — survive one more impact." />
+  <meta name="description" content="TAKKAR — charge the V12, release the wheel, survive one more impact." />
   <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="assets/icon-192.png" />
+  <link rel="apple-touch-icon" href="assets/icon-192.png" />
+  <link rel="preload" as="image" href="assets/takkar-logo.webp" />
   <link rel="stylesheet" href="styles.css" />
   <title>TAKKAR — The Impact Game</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
   <div id="boot" class="boot" aria-live="polite">
-    <div class="boot-mark"><span>T</span></div>
-    <div class="boot-copy"><strong>TAKKAR</strong><span id="bootText">IGNITING LAUNCH SYSTEM</span></div>
+    <div class="boot-mark">
+      <img src="assets/takkar-logo.webp" alt="TAKKAR" />
+    </div>
+    <div class="boot-copy">
+      <strong>TAKKAR</strong>
+      <span id="bootText">IGNITING LAUNCH SYSTEM</span>
+    </div>
     <div class="boot-track"><i id="bootBar"></i></div>
   </div>
 
   <div id="app" class="app" hidden>
     <header class="topbar">
       <button id="brandButton" class="brand" type="button" aria-label="Open game information">
-        <span class="brand-icon">T</span>
+        <img src="assets/icon-192.png" alt="" />
         <span><b>TAKKAR</b><small>THE IMPACT GAME</small></span>
       </button>
-      <div class="top-center" aria-live="polite"><span id="phaseLabel">READY</span><strong id="multiplierLabel">1.00×</strong></div>
+
+      <div class="top-center" aria-live="polite">
+        <span id="phaseLabel">READY</span>
+        <strong id="multiplierLabel">1.00×</strong>
+      </div>
+
       <div class="top-actions">
-        <div class="balance"><small>BALANCE</small><strong id="balanceLabel">₹10,000</strong></div>
-        <button id="settingsButton" class="icon-button" type="button" aria-label="Settings">⚙</button>
+        <div class="balance">
+          <small>BALANCE</small>
+          <strong id="balanceLabel">₹10,000</strong>
+        </div>
+        <button id="settingsButton" class="icon-button" type="button" aria-label="Settings">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm9 3.5-.18-1.35-2.22-.84a7.4 7.4 0 0 0-.65-1.55l.98-2.16-.82-1.08-1.1-.82-2.15.98a7.4 7.4 0 0 0-1.55-.65L12.47 2h-1.35l-.83 2.22a7.4 7.4 0 0 0-1.55.65l-2.16-.98-1.08.82-.82 1.1.98 2.15a7.4 7.4 0 0 0-.65 1.55L2.8 10.35V11.7l2.22.83c.15.55.37 1.07.65 1.55l-.98 2.16.82 1.08 1.1.82 2.15-.98c.48.28 1 .5 1.55.65l.83 2.22h1.35l.84-2.22a7.4 7.4 0 0 0 1.55-.65l2.16.98 1.08-.82.82-1.1-.98-2.15c.28-.48.5-1 .65-1.55l2.22-.83V12Z"/></svg>
+        </button>
       </div>
     </header>
 
     <main class="game-shell">
       <section id="stage" class="stage" aria-label="TAKKAR game stage">
         <canvas id="gameCanvas" aria-label="A heavy wheel racing through industrial impact obstacles"></canvas>
+
         <div class="stage-vignette" aria-hidden="true"></div>
         <div id="impactFlash" class="impact-flash" aria-hidden="true"></div>
+
         <div class="round-meta">
           <div class="status-pill"><i id="statusDot"></i><span id="statusText">LAUNCH SYSTEM READY</span></div>
           <div id="networkPill" class="network-pill"><i></i><span>DEMO ENGINE</span></div>
         </div>
-        <div id="introCopy" class="intro-copy"><small>40 KG OF MOMENTUM</small><h1>SURVIVE<br><em>ONE MORE IMPACT.</em></h1><p>Hold to build pressure. Release to launch. Cash out before the wheel breaks.</p></div>
-        <div id="nextThreat" class="next-threat"><small>NEXT TAKKAR</small><div><span id="threatName">STEEL JOINT</span><strong id="nextMultiplier">1.10×</strong></div><i><b id="threatProgress"></b></i></div>
-        <div id="survivalCard" class="survival-card" aria-live="assertive"><small id="survivalKicker">IMPACT SURVIVED</small><strong id="survivalMultiplier">1.10×</strong><span id="survivalHint">TAKE IT — OR TRUST THE WHEEL</span></div>
-        <div id="overdriveCard" class="overdrive-card" aria-live="assertive"><small>RARE MOMENTUM STATE</small><strong>OVERDRIVE</strong><span>THE ROAD OPENS. THE RISK DOESN'T.</span></div>
-        <div id="resultCard" class="result-card" aria-live="assertive"><small id="resultKicker">ROUND COMPLETE</small><strong id="resultTitle">CASHED OUT</strong><span id="resultValue">+₹0</span><button id="againButton" type="button">RUN IT AGAIN</button></div>
-        <button id="soundButton" class="sound-button" type="button" aria-label="Toggle sound"><span id="soundIcon">SOUND ON</span></button>
+
+        <div id="desktopTelemetry" class="desktop-telemetry" aria-hidden="true">
+          <div class="telemetry-head">
+            <span>TAKKAR IMPACT DRIVE · V12</span>
+            <b id="clutchLabel">CLUTCH ARMED</b>
+          </div>
+          <div class="telemetry-grid">
+            <div><small>ENGINE</small><strong><span id="rpmLabel">900</span><em>RPM</em></strong><i><b id="rpmBar"></b></i></div>
+            <div><small>BOOST</small><strong><span id="boostLabel">0</span><em>BAR</em></strong><i><b id="boostBar"></b></i></div>
+            <div><small>WHEEL SPEED</small><strong><span id="velocityLabel">0</span><em>KM/H</em></strong><i><b id="velocityBar"></b></i></div>
+          </div>
+        </div>
+
+        <div id="launchSequence" class="launch-sequence" aria-hidden="true">
+          <span>01 · IGNITION</span><i></i><span>02 · CLUTCH</span><i></i><span>03 · IMPACT RUN</span>
+        </div>
+
+        <div id="introCopy" class="intro-copy">
+          <small>40 KG OF MOMENTUM</small>
+          <h1>SURVIVE<br><em>ONE MORE IMPACT.</em></h1>
+          <p>Hold to build pressure. Release to launch. Cash out before the wheel breaks.</p>
+        </div>
+
+        <div id="nextThreat" class="next-threat">
+          <small>NEXT TAKKAR</small>
+          <div><span id="threatName">STEEL JOINT</span><strong id="nextMultiplier">1.10×</strong></div>
+          <i><b id="threatProgress"></b></i>
+        </div>
+
+        <div id="survivalCard" class="survival-card" aria-live="assertive">
+          <small id="survivalKicker">IMPACT SURVIVED</small>
+          <strong id="survivalMultiplier">1.10×</strong>
+          <span id="survivalHint">TAKE IT — OR TRUST THE WHEEL</span>
+        </div>
+
+        <div id="overdriveCard" class="overdrive-card" aria-live="assertive">
+          <small>RARE MOMENTUM STATE</small>
+          <strong>OVERDRIVE</strong>
+          <span>THE ROAD OPENS. THE RISK DOESN'T.</span>
+        </div>
+
+        <div id="resultCard" class="result-card" aria-live="assertive">
+          <small id="resultKicker">ROUND COMPLETE</small>
+          <strong id="resultTitle">CASHED OUT</strong>
+          <span id="resultValue">+₹0</span>
+          <button id="againButton" type="button">RUN IT AGAIN</button>
+        </div>
+
+        <button id="soundButton" class="sound-button" type="button" aria-label="Toggle sound">
+          <span id="soundIcon">SOUND ON</span>
+        </button>
+
         <div id="fpsBadge" class="fps-badge" hidden>60 FPS</div>
       </section>
 
       <section class="control-dock" aria-label="Bet and game controls">
         <div class="history" id="history" aria-label="Recent round results"></div>
+
         <div class="bet-row">
-          <div class="bet-block"><span class="label">BET</span><div class="stepper"><button id="betMinus" type="button" aria-label="Decrease bet">−</button><label for="betInput"><span>₹</span><input id="betInput" inputmode="numeric" type="number" min="10" max="10000" step="10" value="100" /></label><button id="betPlus" type="button" aria-label="Increase bet">+</button></div></div>
-          <div class="quick-bets" id="quickBets" aria-label="Quick bet amounts"><button type="button" data-value="50">₹50</button><button type="button" data-value="100" class="active">₹100</button><button type="button" data-value="250">₹250</button><button type="button" data-value="500">₹500</button></div>
-          <div class="payout-block"><span class="label">CURRENT RETURN</span><strong id="payoutLabel">₹100</strong></div>
+          <div class="bet-block">
+            <span class="label">BET</span>
+            <div class="stepper">
+              <button id="betMinus" type="button" aria-label="Decrease bet">−</button>
+              <label for="betInput"><span>₹</span><input id="betInput" inputmode="numeric" type="number" min="10" max="10000" step="10" value="100" /></label>
+              <button id="betPlus" type="button" aria-label="Increase bet">+</button>
+            </div>
+          </div>
+
+          <div class="quick-bets" id="quickBets" aria-label="Quick bet amounts">
+            <button type="button" data-value="50">₹50</button>
+            <button type="button" data-value="100" class="active">₹100</button>
+            <button type="button" data-value="250">₹250</button>
+            <button type="button" data-value="500">₹500</button>
+          </div>
+
+          <div class="payout-block">
+            <span class="label">CURRENT RETURN</span>
+            <strong id="payoutLabel">₹100</strong>
+          </div>
         </div>
-        <button id="actionButton" class="action-button is-launch" type="button"><span class="action-fill" id="actionFill"></span><span class="action-shine"></span><span class="action-copy"><small id="actionKicker">PRESS & HOLD</small><strong id="actionLabel">HOLD TO LAUNCH</strong><em id="actionSub">RELEASE WHEN THE ENGINE PEAKS</em></span></button>
-        <div class="condition-row"><div><span>WHEEL</span><strong id="conditionLabel">PRISTINE</strong></div><div class="condition-meter"><i id="conditionMeter"></i></div><div><span>IMPACTS</span><strong id="impactCountLabel">0</strong></div></div>
+
+        <button id="actionButton" class="action-button is-launch" type="button">
+          <span class="action-fill" id="actionFill"></span>
+          <span class="action-shine"></span>
+          <span class="action-copy">
+            <small id="actionKicker">PRESS & HOLD</small>
+            <strong id="actionLabel">HOLD TO LAUNCH</strong>
+            <em id="actionSub">RELEASE WHEN THE ENGINE PEAKS</em>
+          </span>
+        </button>
+
+        <div class="condition-row">
+          <div><span>WHEEL</span><strong id="conditionLabel">PRISTINE</strong></div>
+          <div class="condition-meter"><i id="conditionMeter"></i></div>
+          <div><span>IMPACTS</span><strong id="impactCountLabel">0</strong></div>
+        </div>
       </section>
     </main>
-    <footer class="legal-strip"><span>DEMO CREDITS</span><button id="fairnessButton" type="button">ROUND FAIRNESS</button><span id="userLabel">GUEST MODE</span></footer>
+
+    <footer class="legal-strip">
+      <span>DEMO CREDITS</span>
+      <button id="fairnessButton" type="button">ROUND FAIRNESS</button>
+      <span id="userLabel">GUEST MODE</span>
+    </footer>
   </div>
 
   <div id="sheetBackdrop" class="sheet-backdrop" hidden></div>
-  <aside id="settingsSheet" class="sheet" aria-hidden="true"><div class="sheet-handle"></div><div class="sheet-head"><div><small>TAKKAR SYSTEM</small><h2>Settings</h2></div><button class="sheet-close" data-close-sheet type="button">×</button></div><div class="setting-row"><div><strong>Sound design</strong><span>Engine, impacts and cash-out cue</span></div><label class="switch"><input id="soundToggle" type="checkbox" checked /><i></i></label></div><div class="setting-row"><div><strong>Haptic impacts</strong><span>Telegram-native vibration feedback</span></div><label class="switch"><input id="hapticToggle" type="checkbox" checked /><i></i></label></div><div class="setting-row"><div><strong>Reduced motion</strong><span>Less shake, blur and particles</span></div><label class="switch"><input id="motionToggle" type="checkbox" /><i></i></label></div><label class="select-row" for="qualitySelect"><span><strong>Graphics quality</strong><small>Auto balances visual quality and frame rate</small></span><select id="qualitySelect"><option value="auto">Auto</option><option value="high">High</option><option value="balanced">Balanced</option><option value="low">Battery saver</option></select></label><button id="fullscreenButton" class="sheet-primary" type="button">ENTER FULLSCREEN</button><p class="sheet-note">Real-money mode must use a licensed, server-authoritative wallet, certified mathematics and jurisdiction controls. This build runs with demonstration credits.</p></aside>
-  <aside id="infoSheet" class="sheet" aria-hidden="true"><div class="sheet-handle"></div><div class="sheet-head"><div><small>THE IMPACT GAME</small><h2>How TAKKAR works</h2></div><button class="sheet-close" data-close-sheet type="button">×</button></div><ol class="how-list"><li><b>1</b><div><strong>Hold to launch</strong><span>Build pressure in the mechanical launch engine, then release.</span></div></li><li><b>2</b><div><strong>Survive each impact</strong><span>Every physical checkpoint raises the multiplier and damages the wheel.</span></div></li><li><b>3</b><div><strong>Cash out in time</strong><span>Take the current return before the next takkar destroys the wheel.</span></div></li></ol><div class="rule-callout">The launch charge changes the feeling of the launch, not the round result.</div></aside>
-  <aside id="fairnessSheet" class="sheet" aria-hidden="true"><div class="sheet-handle"></div><div class="sheet-head"><div><small>PROVABLY AUDITABLE</small><h2>Round fairness</h2></div><button class="sheet-close" data-close-sheet type="button">×</button></div><div class="fairness-grid"><div><span>MODE</span><strong id="fairnessMode">DEMO</strong></div><div><span>ROUND ID</span><strong id="roundId">—</strong></div><div class="wide"><span>COMMITMENT</span><code id="roundCommit">Generated when a round starts</code></div></div><p>In production, the server commits to a hidden round seed before launch. After the round, the seed can be revealed and independently verified against the commitment.</p></aside>
+
+  <aside id="settingsSheet" class="sheet" aria-hidden="true">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><div><small>TAKKAR SYSTEM</small><h2>Settings</h2></div><button class="sheet-close" data-close-sheet type="button">×</button></div>
+    <div class="setting-row"><div><strong>Sound design</strong><span>Engine, impacts and cash-out cue</span></div><label class="switch"><input id="soundToggle" type="checkbox" checked /><i></i></label></div>
+    <div class="setting-row"><div><strong>Haptic impacts</strong><span>Telegram-native vibration feedback</span></div><label class="switch"><input id="hapticToggle" type="checkbox" checked /><i></i></label></div>
+    <div class="setting-row"><div><strong>Reduced motion</strong><span>Less shake, blur and particles</span></div><label class="switch"><input id="motionToggle" type="checkbox" /><i></i></label></div>
+    <label class="select-row" for="qualitySelect"><span><strong>Graphics quality</strong><small>Auto balances visual quality and frame rate</small></span><select id="qualitySelect"><option value="auto">Auto</option><option value="high">High</option><option value="balanced">Balanced</option><option value="low">Battery saver</option></select></label>
+    <button id="fullscreenButton" class="sheet-primary" type="button">ENTER FULLSCREEN</button>
+    <p class="sheet-note">Real-money mode must use a licensed, server-authoritative wallet, certified mathematics and jurisdiction controls. This build runs with demonstration credits.</p>
+  </aside>
+
+  <aside id="infoSheet" class="sheet" aria-hidden="true">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><div><small>THE IMPACT GAME</small><h2>How TAKKAR works</h2></div><button class="sheet-close" data-close-sheet type="button">×</button></div>
+    <ol class="how-list">
+      <li><b>1</b><div><strong>Hold to launch</strong><span>Build pressure in the mechanical launch engine, then release.</span></div></li>
+      <li><b>2</b><div><strong>Survive each impact</strong><span>Every physical checkpoint raises the multiplier and damages the wheel.</span></div></li>
+      <li><b>3</b><div><strong>Cash out in time</strong><span>Take the current return before the next takkar destroys the wheel.</span></div></li>
+    </ol>
+    <div class="rule-callout">The launch charge changes the feeling of the launch, not the round result.</div>
+  </aside>
+
+  <aside id="fairnessSheet" class="sheet" aria-hidden="true">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><div><small>PROVABLY AUDITABLE</small><h2>Round fairness</h2></div><button class="sheet-close" data-close-sheet type="button">×</button></div>
+    <div class="fairness-grid">
+      <div><span>MODE</span><strong id="fairnessMode">DEMO</strong></div>
+      <div><span>ROUND ID</span><strong id="roundId">—</strong></div>
+      <div class="wide"><span>COMMITMENT</span><code id="roundCommit">Generated when a round starts</code></div>
+    </div>
+    <p>In production, the server commits to a hidden round seed before launch. After the round, the seed can be revealed and independently verified against the commitment.</p>
+  </aside>
+
   <script src="game.js" defer></script>
 </body>
 </html>
