@@ -12,26 +12,23 @@ const base = `http://127.0.0.1:${port}`;
 
 try {
   await sleep(500);
-  const client = await readFile(new URL('../public/arcade.js', import.meta.url), 'utf8');
+  const client = await readFile(new URL('../public/arcade-v3.js', import.meta.url), 'utf8');
   const html = await readFile(new URL('../public/index.html', import.meta.url), 'utf8');
-  const css = await readFile(new URL('../public/arcade.css', import.meta.url), 'utf8');
+  if (!client.includes("this.phase = 'impact'")) throw new Error('impact state missing');
+  if (!client.includes('contactOffset(o)')) throw new Error('per-obstacle contact geometry missing');
+  if (!client.includes("const success = ratio >= .73")) throw new Error('deterministic impact rule missing');
+  if (!client.includes('wheelSquashV')) throw new Error('wheel deformation spring missing');
+  if (!html.includes('arcade-v3.js?v=3.0.0')) throw new Error('TAKKAR Arcade 3 runtime not active');
 
-  for (const marker of ['fixed = 1 / 120', 'spawnObstacle()', 'impact()', 'bankRun()', 'updateEngine', 'TIRE STACK', 'DELIVERY TRUCK']) {
-    if (!client.includes(marker)) throw new Error(`arcade runtime marker missing: ${marker}`);
-  }
-  for (const marker of ['arcade.js?v=2.0.0', 'arcade.css?v=2.0.0', 'EK AUR TAKKAR?', 'garageSheet']) {
-    if (!html.includes(marker)) throw new Error(`arcade html marker missing: ${marker}`);
-  }
-  if (!css.includes('.perfect.show') || !css.includes('.garage-sheet.open')) throw new Error('arcade styles incomplete');
 
   const health = await fetch(`${base}/health`).then((r) => r.json());
   if (!health.ok) throw new Error('health failed');
   const page = await fetch(base).then((r) => r.text());
-  if (!page.includes('TAKKAR — One More Hit')) throw new Error('new arcade page is not served');
-  const js = await fetch(`${base}/arcade.js?v=2.0.0`).then((r) => r.text());
-  if (!js.includes('window.__TAKKAR_ARCADE__')) throw new Error('arcade runtime is not served');
+  if (!page.includes('TAKKAR — Ek Aur Takkar?')) throw new Error('new arcade page is not served');
+  const js = await fetch(`${base}/arcade-v3.js?v=3.0.0`).then((r) => r.text());
+  if (!js.includes('window.__TAKKAR__')) throw new Error('arcade runtime is not served');
 
-  console.log('TAKKAR Arcade 2.0 smoke test passed');
+  console.log('TAKKAR Arcade 3.0 smoke test passed');
 } finally {
   server.kill('SIGTERM');
 }

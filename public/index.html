@@ -3,87 +3,113 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
-  <meta name="theme-color" content="#111923" />
+  <meta name="theme-color" content="#101721" />
   <meta name="color-scheme" content="dark" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="description" content="TAKKAR — hold, launch and smash through one more hit." />
+  <meta name="description" content="TAKKAR — hold, launch, smash and decide: ek aur takkar?" />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="assets/icon-192.png" />
   <link rel="apple-touch-icon" href="assets/icon-192.png" />
-  <link rel="stylesheet" href="arcade.css?v=2.0.0" />
-  <title>TAKKAR — One More Hit</title>
+  <link rel="stylesheet" href="arcade-v3.css?v=3.0.0" />
+  <title>TAKKAR — Ek Aur Takkar?</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
   <main class="app">
     <header class="topbar">
-      <div class="brand"><img src="assets/icon-192.png" alt=""><span class="brand-copy"><b>TAKKAR</b><small>ONE MORE HIT</small></span></div>
-      <div class="top-score"><small>SCORE</small><strong id="score">0</strong></div>
+      <div class="brand">
+        <img src="assets/icon-192.png" alt="" />
+        <span><b>TAKKAR</b><small>EK AUR TAKKAR?</small></span>
+      </div>
+      <div class="score-block"><small>SCORE</small><strong id="score">0</strong></div>
       <div class="top-actions">
-        <div class="pill"><small>COINS</small><span>●</span><b id="coins">0</b></div>
-        <button id="garage" class="icon-btn" type="button" aria-label="Garage">⚙</button>
+        <div class="coin-pill"><i></i><span id="coins">0</span></div>
+        <button id="garage" class="garage-button" type="button" aria-label="Open garage">GARAGE</button>
       </div>
     </header>
 
-    <section class="stage">
+    <section class="stage" id="stage">
       <canvas id="game" aria-label="TAKKAR arcade game"></canvas>
-      <div class="vignette" aria-hidden="true"></div>
+      <div class="stage-shade" aria-hidden="true"></div>
 
-      <div id="hero" class="hero">
-        <span class="hero-kicker">EK AUR TAKKAR?</span>
-        <h1 id="heroTitle">SURVIVE<br><em>ONE MORE HIT.</em></h1>
-        <p id="heroSub">Hold. Release in the orange zone. Break everything.</p>
+      <section id="hero" class="hero">
+        <small>ONE BUTTON. ONE HEAVY WHEEL.</small>
+        <h1>SURVIVE<br><em>ONE MORE HIT.</em></h1>
+        <p>Hold to build power. Release in the orange zone. Bank before the next takkar.</p>
+      </section>
+
+      <div class="hud hud-left">
+        <div><small>BEST</small><strong id="best">0</strong></div>
+        <div><small>COMBO</small><strong id="combo">×1</strong></div>
       </div>
 
       <div class="health-card">
-        <div class="health-head"><span>WHEEL CONDITION</span><b id="health">100%</b></div>
-        <div class="health-track"><i id="healthFill"></i></div>
+        <div><small>WHEEL</small><strong id="health">100%</strong></div>
+        <span><i id="healthFill"></i></span>
       </div>
 
       <div id="nextCard" class="next-card">
         <small>NEXT TAKKAR</small>
-        <div><strong id="nextName">TIRE STACK</strong><span id="combo">x1</span></div>
-        <i><b id="nextProgress"></b></i>
+        <div><strong id="nextName">TIRE STACK</strong><b id="riskLabel">LOW</b></div>
+        <span><i id="nextProgress"></i></span>
       </div>
 
-      <div class="hud-left">
-        <div class="stat-card"><small>BEST</small><strong id="best">0</strong></div>
-        <div class="stat-card"><small>ENGINE</small><strong>V12</strong></div>
+      <div class="charge-card">
+        <div><small>ENGINE POWER</small><b id="chargeGrade">BUILD</b></div>
+        <span class="charge-track">
+          <i id="chargeFill"></i>
+          <em class="perfect-zone"></em>
+          <b id="chargeNeedle"></b>
+        </span>
       </div>
 
-      <div class="charge-wrap">
-        <div class="charge-head"><span>ENGINE POWER</span><b>PERFECT</b></div>
-        <div class="charge-track"><i id="chargeFill"></i><span id="chargeNeedle" class="charge-needle"></span></div>
+      <div id="perfect" class="perfect-callout">PERFECT LAUNCH</div>
+
+      <div id="impactCallout" class="impact-callout">
+        <small id="impactMaterial">IMPACT SURVIVED</small>
+        <strong id="impactScore">+0</strong>
       </div>
 
-      <div id="perfect" class="perfect">PERFECT LAUNCH!</div>
-      <div id="decision" class="decision"><small>IMPACT SURVIVED</small><strong id="decisionScore">0</strong><span>EK AUR TAKKAR?</span></div>
-      <div id="result" class="result"><small id="resultKicker">RUN COMPLETE</small><strong id="resultTitle">0 SCORE</strong><span id="resultSub">Best 0</span></div>
-      <button id="sound" class="sound-btn" type="button">SOUND ON</button>
+      <div id="choice" class="choice-card">
+        <small>SAFE FOR A MOMENT</small>
+        <strong>EK AUR TAKKAR?</strong>
+        <span>Tap BANK SCORE or wait for the next hit</span>
+        <i><b id="choiceTimer"></b></i>
+      </div>
+
+      <div id="result" class="result-card">
+        <small id="resultKicker">RUN COMPLETE</small>
+        <strong id="resultTitle">0 SCORE</strong>
+        <span id="resultSub">Best 0</span>
+      </div>
+
+      <button id="sound" class="sound-button" type="button">SOUND ON</button>
+      <div id="qualityBadge" class="quality-badge">HIGH</div>
     </section>
 
-    <section class="control">
-      <button id="action" class="action" type="button">
+    <section class="controls">
+      <button id="action" class="action-button" type="button">
+        <span class="button-glow"></span>
         <span class="action-copy">
           <small id="actionKicker">PRESS & HOLD</small>
           <strong id="actionLabel">CHARGE THE ENGINE</strong>
-          <em id="actionSub">RELEASE IN THE PERFECT ZONE</em>
+          <em id="actionSub">RELEASE IN THE ORANGE ZONE</em>
         </span>
       </button>
-      <div class="footer-row"><span>ARCADE BUILD · DEMO CREDITS</span><button id="share" type="button">SHARE RUN</button></div>
+      <div class="bottom-row"><span>TAKKAR ARCADE · DEMO</span><button id="share" type="button">SHARE RUN</button></div>
     </section>
   </main>
 
-  <aside id="garageSheet" class="garage-sheet" aria-label="Garage">
-    <div class="garage-head"><div><small>TAKKAR GARAGE</small><h2>Build a harder wheel</h2></div><button id="garageClose" class="garage-close" type="button">×</button></div>
-    <div class="garage-coins"><span>AVAILABLE COINS</span><strong id="garageCoins">0</strong></div>
+  <aside id="garageSheet" class="garage-sheet" aria-label="TAKKAR garage">
+    <header><div><small>TAKKAR GARAGE</small><h2>Build a harder wheel</h2></div><button id="garageClose" type="button">×</button></header>
+    <div class="garage-balance"><span>AVAILABLE COINS</span><strong id="garageCoins">0</strong></div>
     <div class="upgrades">
-      <article class="upgrade"><div class="upgrade-top"><strong>ENGINE POWER</strong><b id="engineLevel">LV.1</b></div><p>More launch speed and stronger impact force.</p><button id="upgradeEngine" type="button">UPGRADE · <span id="engineCost">120</span></button></article>
-      <article class="upgrade"><div class="upgrade-top"><strong>TIRE STRENGTH</strong><b id="tireLevel">LV.1</b></div><p>More health and a better chance to survive heavy hits.</p><button id="upgradeTire" type="button">UPGRADE · <span id="tireCost">120</span></button></article>
+      <article><div><strong>ENGINE</strong><b id="engineLevel">LV.1</b></div><p>Faster launch and stronger recovery after every hit.</p><button id="upgradeEngine" type="button">UPGRADE · <span id="engineCost">120</span></button></article>
+      <article><div><strong>TIRE</strong><b id="tireLevel">LV.1</b></div><p>More health, less deformation and lower impact damage.</p><button id="upgradeTire" type="button">UPGRADE · <span id="tireCost">120</span></button></article>
     </div>
   </aside>
 
-  <script src="arcade.js?v=2.0.0" defer></script>
+  <script src="arcade-v3.js?v=3.0.0" defer></script>
 </body>
 </html>

@@ -1,14 +1,14 @@
 {
   "name": "takkar-telegram-mini-app",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "private": true,
   "type": "module",
-  "description": "TAKKAR Arcade — a fast, viral hold-release impact game for browser and Telegram Mini Apps.",
+  "description": "TAKKAR Arcade 3 — a polished hold-release impact game for browser and Telegram Mini Apps.",
   "scripts": {
     "start": "node server/server.mjs",
     "dev": "NODE_ENV=development DEMO_AUTH=true node server/server.mjs",
     "bot:setup": "node bot/setup-menu.mjs",
-    "check": "node --check public/arcade.js && node --check server/server.mjs && node --check bot/setup-menu.mjs",
+    "check": "node --check public/arcade-v3.js && node --check server/server.mjs && node --check bot/setup-menu.mjs",
     "test": "node scripts/smoke.mjs"
   },
   "engines": { "node": ">=20" }
